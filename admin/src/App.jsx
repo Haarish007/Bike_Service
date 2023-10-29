@@ -1,33 +1,26 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import bookingIcon from './assets/icons/booking-icon.svg'
+import servicesIcon from './assets/icons/services-icon.svg'
+import { Link } from 'react-router-dom'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    {/* Listing all the available options for the admin */}
+    <div className="home-list">
+
+      <Link to={'/bookings'} className="item">
+        <img src={bookingIcon} alt="" />
+        <p>Bookings</p>
+      </Link>
+
+      <Link to={'/services'} className="item">
+        <img src={servicesIcon} alt="" />
+        <p>Services</p>
+      </Link>
+
+    </div>
     </>
   )
 }

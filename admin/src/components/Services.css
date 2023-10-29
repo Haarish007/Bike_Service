@@ -1,0 +1,25 @@
+
+.services-list{
+    flex-direction: column;
+    display: flex;
+    list-style: none;
+    max-width: 50%;
+}
+.edit-service .services{
+    background-color: blue;
+}
+.services-list .service{
+    display: flex;
+    flex-direction: row;
+}
+.services-list .service p{
+    flex: 1;
+}
+.edit-service input{
+    min-width: 40%;
+    text-wrap: wrap;
+}
+.services-list .service img{
+    max-width: 1.5rem;
+    cursor: pointer;
+}
