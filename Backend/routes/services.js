@@ -43,10 +43,13 @@ routes.get('/getallservices',async(req,res)=>{
 routes.patch("/editservice/:id",async(req,res)=>{
     try{
         const data=req.body;
+        console.log(data);
+        console.log(req.params.id);
         const editedService=await Services.findByIdAndUpdate(req.params.id,{$set:data},{new:true})
         if(!editedService){
             return res.status(404).json({message:"Service not found"})
         }
+        res.status(201).json({message:"service edited"})
     }
     catch(error){
         res.send(error)

@@ -10,7 +10,7 @@ const Services = () => {
   const [servicesList, setServicesList] = useState([]);
   const [editName, setEditName] = useState("");
   const [editCost, setEditCost] = useState(0);
-  const [editIndex, setEditIndex] = useState(null);
+  const [editId, setEditId] = useState("");
   const [editState, setEditState] = useState(false);
   const nameRef = useRef(null);
   const costRef = useRef(null);
@@ -87,25 +87,55 @@ const Services = () => {
     })
   }
 
-  const handleEdit = (i)=>{
-    // setEditState(true)
-    // inputRef.current.focus();
-    // setEditName(servicesList[i])
-    // setEditIndex(i)
+  const handleEdit = (service)=>{
+    setEditState(true)
+    nameRef.current.focus();
+    setEditId(service._id)
+    setEditName(service.serviceName)
+    setEditCost(service.serviceCost)
   }
 
   const editService = ()=>{
-    // const list = [...servicesList]
-    // list[editIndex] = editName;
-    // setServicesList(list);
-    // setEditIndex(null);
-    // setEditState(false);
-    // setEditName("")
+    fetch(`http://localhost:3000/crabbit/services/editservice/${editId}`,
+    {
+      method:"PATCH",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      },
+      body : JSON.stringify({
+        serviceName : editName,
+        serviceCost : editCost
+      })
+    })
+    .then((res)=>{
+      
+      if(res.ok)
+      {
+        alert("Service edited successfully");
+      }
+      else
+      {
+        alert("Error in editing service");
+      }
+      return res.json()
+    }).then((data)=>{
+      console.log(data);
+    })
+    .catch((err)=>{
+      alert("Error in editing service");
+      console.log(err);
+    })
+    setEditId("");
+    setEditName("")
+    setEditCost(0);
+    setEditState(false);
   }
 
   const cancelEdit = ()=>{
-    // setEditName("")
-    // setEditState(false);
+    setEditName("")
+    setEditCost(0);
+    setEditId("");
+    setEditState(false);
   }
   
   const handleInputChange = ()=>{
@@ -145,7 +175,10 @@ const Services = () => {
             {!editState && 
             <>
             <button onClick={addService}>Add Service</button>
-            <button onClick={()=>setEditName("")}>Clear</button>
+            <button onClick={()=>{
+              setEditName("");
+              setEditCost(0);
+            }}>Clear</button>
             </>
             }
 
@@ -164,7 +197,7 @@ const Services = () => {
             (
               <div key={service._id} className="service">
                 <p>{service.serviceName} - {service.serviceCost}</p>
-                <img onClick={()=>handleEdit(service._id)}src={pencilIcon}></img>
+                <img onClick={()=>handleEdit(service)}src={pencilIcon}></img>
                 <img onClick={()=>deleteService(service._id)} src={binIcon}></img>
               </div>
             )
