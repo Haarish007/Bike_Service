@@ -17,10 +17,10 @@ routes.post('/newservice',async(req,res)=>{
     res.send("created")
 })
 
-routes.delete('/deleteService/:id',async(req,res)=>{
+routes.delete('/deleteservice/:id',async(req,res)=>{
     try{
-        const deletedService=Services.deleteOne({_id:req.params.id})
-        res.send({message:"Service deleted"})
+        const deletedService= await Services.deleteOne({_id:req.params.id})
+        res.json({message:"Service deleted"})
     }
     catch(error){
         res.send(error)
@@ -37,6 +37,21 @@ routes.get('/getallservices',async(req,res)=>{
         console.log(error);
         res.error(error)
     }
+})
+
+
+routes.patch("/editservice/:id",async(req,res)=>{
+    try{
+        const data=req.body;
+        const editedService=await Services.findByIdAndUpdate(req.params.id,{$set:data},{new:true})
+        if(!editedService){
+            return res.status(404).json({message:"Service not found"})
+        }
+    }
+    catch(error){
+        res.send(error)
+    }
+
 })
 
 

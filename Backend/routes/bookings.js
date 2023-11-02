@@ -58,13 +58,8 @@ routes.post('/newbooking', async (req, res) => {
         const user = await User.findById(bookingInfo.userId); 
 
         if (user) {
-          // Add the completed booking's ID to the user's completedServiceBookings array
           user.completedServiceBookings.push(completedBooking._id);
-  
-          // Remove the current booking's ID from the user's currentBookings array
-          user.currentBookings = user.currentBookings.filter(id => id.toString() !== req.params.id);
-  
-          // Save the user object to update the arrays
+          user.currentBookings = user.currentBookings.filter(id => id.toString()!==req.params.id);
           await user.save();
         } else {
           res.send("User not found");
