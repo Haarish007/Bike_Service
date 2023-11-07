@@ -1,5 +1,64 @@
-.booking-form{
+
+.booking {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  
+  .booking-form {
     display: flex;
     flex-direction: column;
-    row-gap: 1rem;
-}
+  }
+  
+  .booking h2 {
+    font-size: 18px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+  }
+  
+  .booking input[type="text"],
+  .booking input[type="number"],
+  .booking select,
+  .booking textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  
+  .booking label {
+    display: flex;
+    align-items: center;
+  }
+  
+  .booking input[type="checkbox"] {
+    margin-right: 10px;
+  }
+  
+  .booking p {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  
+  .booking button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 15px;
+  }
+  
+  .booking button:hover {
+    background-color: #0056b3;
+  }
+  

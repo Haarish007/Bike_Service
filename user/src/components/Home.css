@@ -1,0 +1,34 @@
+.home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f0f0f0; 
+  }
+  
+.home-content {
+    text-align: center;
+    background-color: #fff; /* Set your preferred content background color */
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+.home .link {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 10px;
+    background-color: #007BFF; /* Set your preferred button background color */
+    color: #fff; /* Text color for the button */
+    border: none;
+    border-radius: 5px;
+    text-decoration: none; /* Remove underlines from the link */
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+.home .link:hover {
+    background-color: #0056b3; /* Set the hover background color */
+  }
+  

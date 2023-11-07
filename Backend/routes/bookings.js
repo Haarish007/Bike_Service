@@ -8,14 +8,14 @@ const User = require('../models/users');
 //post new bookings
 routes.post('/newbooking', async (req, res) => {
     try {
-      console.log(req.body);
-      const { userId, bikeModel, bikeMake, selectedServices, totalCost } = req.body;
+      const { userId, bikeModel, bikeMake, bookingDate ,selectedServices, totalCost } = req.body;
       const objectId = new ObjectId(userId);
   
       const newbooking = new currentBookings({
         userId: objectId,
-        bikeMake,
         bikeModel,
+        bikeMake,
+        bookingDate,
         selectedServices,
         totalCost,
       });
@@ -39,9 +39,27 @@ routes.post('/newbooking', async (req, res) => {
     }
   });
 
+//post changing status to ready for pickup
+
+routes.patch('/changestatus', async (req, res) => {
+  try {
+    const { bookingId, status } = req.body;
+    const booking = await currentBookings.findByIdAndUpdate( bookingId,{ status: status },{ new: true })
+
+    if (!booking) {
+      console.log("not book")
+      return res.status(404).json({ message: 'Service booking not found' });
+    }
+
+    return res.json({ message: 'Status changed to Ready for Pickup', booking });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Server error' });
+  }
+});
 
 //post completed bookings
-  routes.post("/completedBooking/:id",async(req,res)=>{
+  routes.post("/completedbooking/:id",async(req,res)=>{
     console.log(req.params.id);
     try{
         const bookingInfo=await currentBookings.findById({_id:req.params.id})

@@ -23,8 +23,8 @@ const currentServiceBookingSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['Booked', 'In Progress', 'Completed'],
-    default: 'Booked',
+    enum: ['Pending', 'Ready for Pickup', 'Completed'],
+    default: 'Pending',
   },
   bookingDate: {
     type: Date,

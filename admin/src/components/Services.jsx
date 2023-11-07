@@ -17,6 +17,15 @@ const Services = () => {
   const costRef = useRef(null);
 
 
+  const getAllServices = ()=>{
+    fetch('http://localhost:3000/bikeservice/services/getallservices')
+    .then((res)=>res.json())
+    .then((data)=>{
+      setServicesList(data);
+    })
+    .catch((err)=> console.log(err))
+  }
+
   useEffect(()=>{
         fetch('http://localhost:3000/bikeservice/services/getallservices')
         .then((res)=>res.json())
@@ -48,7 +57,8 @@ const Services = () => {
     .then((res)=>{
       if(res.ok)
       {
-        setServicesList((prev)=>[...prev])
+        getAllServices();
+        setServicesList(servicesList);
       }
       else
       {
@@ -82,7 +92,8 @@ const Services = () => {
       
       return res.json()
     }).then(()=>{
-      setServicesList((prev)=>[...prev])
+      getAllServices();
+      setServicesList(servicesList);
     })
     .catch((err)=>{
       alert("Error in deleting service");
@@ -120,8 +131,8 @@ const Services = () => {
       if(res.ok)
       {
         alert("Service edited successfully");
-        setServicesList((prev)=>[...prev])
-
+        getAllServices();
+        setServicesList(servicesList);
       }
       else
       {
@@ -157,7 +168,7 @@ const Services = () => {
 
   return (
     <>
-    <Link to='/'>Back to home</Link>
+    <Link className="back" to='/'>Back to home</Link>
 
     {/* Listing the Services opted by the admin */}
 
@@ -167,7 +178,7 @@ const Services = () => {
         {
           servicesList.map((service)=>
             (
-              <li key={service._id}>{service.serviceName} - {service.serviceCost}</li>
+              <li key={service._id}>{service.serviceName} - Rs. {service.serviceCost}</li>
             )
             )
         }
@@ -207,7 +218,7 @@ const Services = () => {
           servicesList.map((service)=>
             (
               <div key={service._id} className="service">
-                <p>{service.serviceName} - {service.serviceCost}</p>
+                <p>{service.serviceName} - Rs. {service.serviceCost}</p>
                 <img onClick={()=>handleEdit(service)}src={pencilIcon}></img>
                 <img onClick={()=>deleteService(service._id)} src={binIcon}></img>
               </div>

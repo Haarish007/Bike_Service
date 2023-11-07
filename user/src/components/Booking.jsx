@@ -10,6 +10,7 @@ const Booking = () => {
     const [services, setServices] = useState([]);
     const [make, setMake] = useState('');
     const [model, setModel] = useState('');
+    const [date, setDate] = useState('');
     const [selectedServices, setSelectedServices] = useState([])
     const [totalCost, setTotalCost] = useState(0);
 
@@ -36,10 +37,16 @@ const Booking = () => {
                 setModel(value);
                 break;
 
+            case "date": 
+                setDate(value);
+                break;
+
             default:
                 break;
         }        
     }
+
+      
 
     const handleSubmit = (e)=>{
         e.preventDefault()
@@ -52,6 +59,7 @@ const Booking = () => {
                 userId: user._id,
                 bikeMake: make,
                 bikeModel: model,
+                bookingDate : date,
                 selectedServices: selectedServices,
                 totalCost: totalCost,
               })
@@ -86,10 +94,10 @@ const Booking = () => {
     
   return (
     <div className="booking">
-        <Link to='/'>Return to home</Link>
+        <Link className='back' to='/'>Back to Home</Link>
         <form action="" className="booking-form">
             <div htmlFor="">
-                <h2>Username</h2>
+                <h2>Username (cannot be changed)</h2>
                 <input type="text" value={user.userName} readOnly />
             </div>
 
@@ -101,6 +109,11 @@ const Booking = () => {
             <div>
                 <h2>Model name</h2>
                 <input name="model" value={model} onChange={handleInputChange} type="text" required/>
+            </div>
+
+            <div>
+                <h2>Date</h2>
+                <input name="date" value={date} onChange={handleInputChange} type="date" required />
             </div>
 
             <div>

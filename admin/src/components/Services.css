@@ -1,25 +1,83 @@
+.services {
+    margin: 20px;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+.services h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+.services-list {
+    list-style-type: disc;
+  }
+  
+.edit-list {
+    max-width: 1000px;
+    margin: 20px;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+.edit-list h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+.edit-service {
+    margin: 20px 0;
+  }
+  
 
-.services-list{
-    flex-direction: column;
+.edit-service button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #e0e0e0; 
+    color: #000; 
+    text-decoration: none; 
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+.edit-service button:hover {
+    color: white;
+    background-color: #2c2b2b; 
+  }
+.edit-service input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+.service {
     display: flex;
-    list-style: none;
-    max-width: 50%;
-}
-.edit-service .services{
-    background-color: blue;
-}
-.services-list .service{
-    display: flex;
-    flex-direction: row;
-}
-.services-list .service p{
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #ccc;
+  }
+  
+.service p {
     flex: 1;
-}
-.edit-service input{
-    min-width: 40%;
-    text-wrap: wrap;
-}
-.services-list .service img{
-    max-width: 1.5rem;
+    font-size: 18px;
+  }
+  
+.service img {
     cursor: pointer;
-}
+    margin-left: 10px;
+    max-width: 2rem;
+  }
+  
+.service img:hover {
+    opacity: 0.7;
+  }
+  

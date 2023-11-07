@@ -5,6 +5,7 @@ import Home from './components/Home';
 import Login from './components/Login';
 import Signup from './components/Signup'
 import { UserContext } from './components/UserContext';
+import MyBookings from './components/MyBookings';
 
 
 const Paths = () => {
@@ -17,6 +18,7 @@ const Paths = () => {
         <Routes>
           <Route path="/" element={<Home/>}/>
           <Route path="booking" element={<Booking/>}/>
+          <Route path="mybookings" element={<MyBookings/>}></Route>
         </Routes>
       )}
       

@@ -44,18 +44,14 @@ const Login = () => {
     }
   }
   return (
-    <div>
-        <form action="">
-            <label htmlFor="">
-                Email
-                <input name='email' type="text" onChange={handleChange}/>
-            </label>
-            <label htmlFor="">
-                Password
-                <input name='password' type="text" onChange={handleChange}/>
-            </label>
-            <button type='button' onClick={handleSubmit}>Login</button>
-        </form>
+    <div className="login"> 
+      <form className="login-form"> 
+        <label className="form-label" htmlFor="email">Email</label> 
+        <input className="form-input" name="email" type="text" onChange={handleChange} /> 
+        <label className="form-label" htmlFor="password">Password</label> 
+        <input className="form-input" name="password" type="password" onChange={handleChange} /> 
+        <button className="form-button" type='button' onClick={handleSubmit}>Login</button> 
+      </form>
     </div>
   )
 }
