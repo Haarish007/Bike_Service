@@ -13,9 +13,9 @@ mongoose.connect(process.env.MONGODB_URI).then(()=>{
     console.log("db connected")
 })
 
-app.use("/crabbit/bookings",require("./routes/bookings"))
-app.use("/crabbit/services",require("./routes/services"))
-app.use("/crabbit/users",require("./routes/users"))
+app.use("/bikeservice/bookings",require("./routes/bookings"))
+app.use("/bikeservice/services",require("./routes/services"))
+app.use("/bikeservice/users",require("./routes/users"))
 
 
 //connecting to server

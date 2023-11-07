@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react"
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import './Services.css'
 import binIcon from '../assets/icons/bin.svg'
 import pencilIcon from '../assets/icons/pencil.svg'
@@ -12,29 +12,30 @@ const Services = () => {
   const [editCost, setEditCost] = useState(0);
   const [editId, setEditId] = useState("");
   const [editState, setEditState] = useState(false);
+  const [isPending, setIsPending] = useState(false);
   const nameRef = useRef(null);
   const costRef = useRef(null);
 
 
   useEffect(()=>{
-    try{
-        fetch('http://localhost:3000/crabbit/services/getallservices')
+        fetch('http://localhost:3000/bikeservice/services/getallservices')
         .then((res)=>res.json())
         .then((data)=>{
           setServicesList(data);
-        });
-      }
-    catch(err){
-      console.log(err);
-    }
-  },[servicesList])
+        })
+        .catch((err)=> console.log(err))
+
+  },[])
 
 //function for adding service
   const addService = ()=>{
+
+    setIsPending(true);
+
     const serviceName = editName;
     const serviceCost = editCost;
 
-    fetch('http://localhost:3000/crabbit/services/newservice',{
+    fetch('http://localhost:3000/bikeservice/services/newservice',{
      method : 'POST',
      headers: {
       "Content-type": "application/json; charset=UTF-8"
@@ -47,7 +48,7 @@ const Services = () => {
     .then((res)=>{
       if(res.ok)
       {
-        alert("Service added successfully");
+        setServicesList((prev)=>[...prev])
       }
       else
       {
@@ -58,33 +59,36 @@ const Services = () => {
       alert("Error in adding service");
       console.log(err);
     })
+
+    setIsPending(false)
+
   }
 
   // function for deleting service
   const deleteService = (_id)=>{
 
-    fetch(`http://localhost:3000/crabbit/services/deleteservice/${_id}`,
+    setIsPending(true);
+
+    fetch(`http://localhost:3000/bikeservice/services/deleteservice/${_id}`,
     {
       method:"DELETE"
     })
     .then((res)=>{
       
-      if(res.ok)
-      {
-        alert("Service deleted successfully");
-      }
-      else
+      if(!res.ok)
       {
         alert("Error in deleting service");
       }
+      
       return res.json()
-    }).then((data)=>{
-      console.log(data);
+    }).then(()=>{
+      setServicesList((prev)=>[...prev])
     })
     .catch((err)=>{
       alert("Error in deleting service");
       console.log(err);
     })
+
   }
 
   const handleEdit = (service)=>{
@@ -93,10 +97,14 @@ const Services = () => {
     setEditId(service._id)
     setEditName(service.serviceName)
     setEditCost(service.serviceCost)
+    setIsPending(false)
+
   }
 
   const editService = ()=>{
-    fetch(`http://localhost:3000/crabbit/services/editservice/${editId}`,
+    setIsPending(true);
+
+    fetch(`http://localhost:3000/bikeservice/services/editservice/${editId}`,
     {
       method:"PATCH",
       headers: {
@@ -112,6 +120,8 @@ const Services = () => {
       if(res.ok)
       {
         alert("Service edited successfully");
+        setServicesList((prev)=>[...prev])
+
       }
       else
       {
@@ -129,6 +139,7 @@ const Services = () => {
     setEditName("")
     setEditCost(0);
     setEditState(false);
+    setIsPending(false)
   }
 
   const cancelEdit = ()=>{

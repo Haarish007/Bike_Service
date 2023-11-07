@@ -9,21 +9,21 @@ const User = require('../models/users');
 routes.post('/newbooking', async (req, res) => {
     try {
       console.log(req.body);
-      const { userid, email, model, make, services } = req.body;
-      const objectId = new ObjectId(userid);
+      const { userId, bikeModel, bikeMake, selectedServices, totalCost } = req.body;
+      const objectId = new ObjectId(userId);
   
       const newbooking = new currentBookings({
         userId: objectId,
-        bikeMake: make,
-        bikeModel: model,
-        selectedServices: services,
-        totalCost: 250,
+        bikeMake,
+        bikeModel,
+        selectedServices,
+        totalCost,
       });
   
       await newbooking.save(); 
       console.log('New booking created');
      
-      const user = await User.findById(userid); 
+      const user = await User.findById(userId); 
 
       if (user) {
         user.currentBookings.push(newbooking._id);
@@ -82,10 +82,29 @@ routes.post('/newbooking', async (req, res) => {
   })
 
 //get open bookings for admin
-routes.get("/allBookings/admin",async(req,res)=>{
+routes.get("/currentbookings/admin",async(req,res)=>{
   try{
-    const bookings=await currentBookings.find()
-    res.status(200).send(bookings)
+    const bookings=await currentBookings.find().populate('userId', 'userName userEmail userContact');
+    if(!bookings){
+      res.status(404).json({message:"no current bookingd found"})
+    }
+
+    const detailedBookings=bookings.map((booking)=>{
+          return{
+            _id:booking._id,
+            bikeMake:booking.bikeMake,
+            bikeModel:booking.bikeModel,
+            selectedServices:booking.selectedServices,
+            totalCost:booking.totalCost,
+            status:booking.status,
+            bookingDate:booking.bookingDate,
+            userId:booking.userId._id,
+            userName:booking.userId.userName,
+            userEmail:booking.userId.userEmail,
+            userContact:booking.userId.userContact
+          }
+    })
+    res.status(200).send(detailedBookings)
     
   }
   catch(error){
@@ -94,10 +113,29 @@ routes.get("/allBookings/admin",async(req,res)=>{
 })
 
 //get completed bookings for admin
-routes.get("/allCompletedBookings/admin",async(req,res)=>{
+routes.get("/completedbookings/admin",async(req,res)=>{
   try{
-    const bookings=await completedBookings.find()
-    res.status(200).send(bookings)
+    const bookings=await completedBookings.find().populate('userId', 'userName userEmail userContact')
+    if(!bookings){
+      res.status(404).json({message:"no completed bookings found"})
+    }
+
+    const detailedBookings=bookings.map((booking)=>{
+      return {
+        _id:booking._id,
+        bikeMake:booking.bikeMake,
+        bikeModel:booking.bikeModel,
+        completedDate:booking.completedDate,
+        totalCost:booking.totalCost,
+        services:booking.services,
+        status:booking.status,
+        userId:booking.userId._id,
+        userName:booking.userId.userName,
+        userEmail:booking.userId.userEmail,
+        userContact:booking.userId.userContact
+      };
+    })
+    res.status(200).send(detailedBookings)
     
   }
   catch(error){
@@ -107,7 +145,7 @@ routes.get("/allCompletedBookings/admin",async(req,res)=>{
 
 
 //get open Bookings for user
-routes.get("/allBookings/user/:id",async(req,res)=>{
+routes.get("/currentbookings/user/:id",async(req,res)=>{
   try{
     const bookings=await currentBookings.find({userId:req.params.id})
     
@@ -121,7 +159,7 @@ routes.get("/allBookings/user/:id",async(req,res)=>{
 
 
 //get completed bookings for user
-routes.get("/allCompletedBookings/user/:id",async(req,res)=>{
+routes.get("/completedbookings/user/:id",async(req,res)=>{
   try{
     const bookings=await completedBookings.find({userId:req.params.id})
     res.status(200).send(bookings)

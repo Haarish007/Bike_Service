@@ -7,13 +7,15 @@ const userSchema = new mongoose.Schema({
   },
   userEmail:{
     type: String,
-    sparse: true,
     required: true,
-    unique: true,
   },
   userPassword:{
         type:String,
         required:true
+  },
+  userContact:{
+    type:Number,
+    required:true
   },
   currentBookings: [{
     type: mongoose.Schema.Types.ObjectId,
