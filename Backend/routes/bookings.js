@@ -4,12 +4,20 @@ const currentBookings=require('../models/currentBookings')
 const completedBookings=require("../models/completedBookings")
 const { ObjectId } = require('mongodb');
 const User = require('../models/users');
+const nodemailer = require("nodemailer");
+const Email = require("../models/mail");
 
 //post new bookings
 routes.post('/newbooking', async (req, res) => {
     try {
       const { userId, bikeModel, bikeMake, bookingDate ,selectedServices, totalCost } = req.body;
       const objectId = new ObjectId(userId);
+
+      const user = await User.findById(userId);
+      if(!user){
+          res.send("user not found please signup")
+      }
+
   
       const newbooking = new currentBookings({
         userId: objectId,
@@ -23,14 +31,45 @@ routes.post('/newbooking', async (req, res) => {
       await newbooking.save(); 
       console.log('New booking created');
      
-      const user = await User.findById(userId); 
+       
 
-      if (user) {
+     
         user.currentBookings.push(newbooking._id);
+        
         await user.save();
-      } else {
-        console.log('User not found');
-      } 
+     
+
+       // Send an email to the customer
+       
+        const transporter = nodemailer.createTransport({
+          host: "smtp.gmail.com",
+          port: 465,
+          secure: true,
+          auth: {
+            user: "haarishda.20cse@kongu.edu",
+            pass: "hari@007",
+          },
+        });
+
+
+
+      const email={
+          from:user.userEmail,
+          to:"haarishda.20cse@kongu.edu",
+          text: "New booking has been created. Here are the details:",
+          html: `
+           <h5>Your Booking with
+            <h5>User Name:</h5><p>${user.userName}</p>
+            <h5>Bike Model:</h5><p>${bikeModel}</p>
+            <h5>Bike Make:</h5><p>${bikeMake}</p>
+            <h5>Booking Date:</h5><p>${bookingDate}</p>
+            <h5>Selected Services:</h5><p>${selectedServices.join(', ')}</p>
+            <h5>Total Cost:</h5><p>${totalCost}</p>
+          `,
+        }
+
+      const emailInfo = await transporter.sendMail(email);
+      console.log('Email sent to the customer:', emailInfo);
 
       res.send('posted');
     } catch (error) {
@@ -75,17 +114,49 @@ routes.patch('/changestatus', async (req, res) => {
 
         const user = await User.findById(bookingInfo.userId); 
 
-        if (user) {
+       
           user.completedServiceBookings.push(completedBooking._id);
           user.currentBookings = user.currentBookings.filter(id => id.toString()!==req.params.id);
           await user.save();
-        } else {
-          res.send("User not found");
-        }
+      
 
 
         const deletedBooking= await currentBookings.findByIdAndDelete({_id:req.params.id})
-        console.log(deletedBooking);
+        
+         // Send an email to the customer
+       
+         const transporter = nodemailer.createTransport({
+          host: "smtp.gmail.com",
+          port: 465,
+          secure: true,
+          auth: {
+            user: "haarishda.20cse@kongu.edu",
+            pass: "hari@007",
+          },
+        });
+
+        const formattedDate = bookingInfo.bookingDate.toISOString().split('T')[0];
+
+        const email={
+          from:"haarishda.20cse@kongu.edu",
+          to:user.userEmail,
+          text: "Your Booking is completed. Here are the details:",
+          html:  `
+          <h5>Your Booking </h5>
+          <h5>User Name:</h5><p>${user.userName}</p>
+          <h5>Bike Model:</h5><p>${bookingInfo.bikeModel}</p>
+          <h5>Bike Make:</h5><p>${bookingInfo.bikeMake}</p>
+          <h5>Booking Date:</h5><p>${formattedDate}</p>
+          <h5>Selected Services:</h5><p>${bookingInfo.selectedServices.join(', ')}</p>
+          <h5>Total Cost:</h5><p>${bookingInfo.totalCost}</p>
+          <p>has been completed come and pick your bike. Thank you for choosing our service.</p>
+        `,
+        }
+
+      const emailInfo = await transporter.sendMail(email);
+      console.log('Email sent to the customer:', emailInfo);
+
+
       }
       else{
         res.send("no current open booking found")
@@ -98,6 +169,8 @@ routes.patch('/changestatus', async (req, res) => {
 
       res.send({message:"booking added to completed"})
   })
+
+
 
 //get open bookings for admin
 routes.get("/currentbookings/admin",async(req,res)=>{
