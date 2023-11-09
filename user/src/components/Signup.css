@@ -1,0 +1,45 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Signup form container */
+  .signup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    width: 300px;
+    margin: 50px auto;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Input labels */
+  .signup p {
+    margin: 10px 0;
+    font-weight: bold;
+  }
+  
+  /* Input fields */
+  .signup input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    width: 100%;
+  }
+  
+  /* Submit button */
+  .signup button {
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 5px;
+  }
+  
+  /* Hover effect for submit button */
+  .signup button:hover {
+    background-color: #0056b3;
+  }
