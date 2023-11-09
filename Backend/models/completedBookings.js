@@ -1,36 +1,36 @@
 const mongoose = require('mongoose');
 
 const completedServiceBookingSchema = new mongoose.Schema({
-  userId: {
+  userId:{
     type: mongoose.Schema.Types.ObjectId, // Assuming you have a User model
-    ref: 'User', // Reference to the User model
-    required: true,
+    ref:'User', // Reference to the User model
+    required:true,
   },
-  bikeMake: {
+  bikeMake:{
     type: String,
-    required: true,
+    required:true,
   },
-  bikeModel: {
+  bikeModel:{
     type: String,
-    required: true,
+    required:true,
   },
-  completedDate: {
-    type: Date,
-    default: Date.now, // Set the default value to the current date and time
-    required: true,
+  completedDate:{
+    type:Date,
+    default:Date.now, // Set the default value to the current date and time
+    required:true,
   },
   totalCost: {
-    type: Number,
-    required: true,
+    type:Number,
+    required:true,
   },
-  services: [
+  services:[
     {
-      type: String, 
+      type:String, 
     },
   ],
-  status: {
-    type: String,
-    default: 'Completed',
+  status:{
+    type:String,
+    default:'Completed',
   },
 });
 

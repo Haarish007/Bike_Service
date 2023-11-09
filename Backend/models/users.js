@@ -2,12 +2,12 @@ const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
   userName:{
-    type: String,
-    required: true,
+    type:String,
+    required:true,
   },
   userEmail:{
-    type: String,
-    required: true,
+    type:String,
+    required:true,
   },
   userPassword:{
         type:String,
@@ -17,13 +17,13 @@ const userSchema = new mongoose.Schema({
     type:Number,
     required:true
   },
-  currentBookings: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'CurrentServiceBooking',
+  currentBookings:[{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:'CurrentServiceBooking',
   }],
-  completedServiceBookings: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'CompletedServiceBooking',
+  completedServiceBookings:[{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:'CompletedServiceBooking',
   }],
 });
 

@@ -16,7 +16,7 @@ mongoose.connect(process.env.MONGODB_URI).then(()=>{
 app.use("/bikeservice/bookings",require("./routes/bookings"))
 app.use("/bikeservice/services",require("./routes/services"))
 app.use("/bikeservice/users",require("./routes/users"))
-app.use("/bikeservice/mail",require("./routes/mail"))
+
 
 
 //connecting to server
