@@ -3,26 +3,20 @@ const User = require('../models/users');
 const bcrypt=require("bcrypt")
 const routes=express.Router()
 
-const user = ()=>{
-    User.deleteMany({ email: null })
-}
-user();
 
 
+//Route for the user signup
 routes.post("/usersignup",async(req,res)=>{
     try{
-
-        console.log(req.body)
-        const email=req.body.userEmail
+         const email=req.body.userEmail
         const pwd=req.body.userPassword;
         const duplicateEmail=await User.find({userEmail:email})
         if(duplicateEmail.length){
-            console.log(duplicateEmail);
-           return res.status(409).send("Email Already found")
+             return res.status(409).send("Email Already found")
         }
         const salt = 10;
         const hashedPassword= await bcrypt.hash(pwd, salt);
-        console.log(email)
+        
         const newUser= new User({
             userName:req.body.userName,
             userEmail:email,
@@ -35,13 +29,13 @@ routes.post("/usersignup",async(req,res)=>{
 
     }
     catch(error){
-        console.log(error);
+       
         res.status(500).send(error)
     }
 })
 
 
-
+//Route for the user login
 routes.post("/userlogin",async(req,res)=>{
     try{
       const {userPassword,userEmail}=req.body
@@ -59,7 +53,7 @@ routes.post("/userlogin",async(req,res)=>{
 
     }
     catch(error){
-        console.log(error);
+       
         res.status(500).json({message:"login failed"})
     }
 })

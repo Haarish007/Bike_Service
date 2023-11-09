@@ -13,6 +13,7 @@ mongoose.connect(process.env.MONGODB_URI).then(()=>{
     console.log("db connected")
 })
 
+//route paths for the apis
 app.use("/bikeservice/bookings",require("./routes/bookings"))
 app.use("/bikeservice/services",require("./routes/services"))
 app.use("/bikeservice/users",require("./routes/users"))
